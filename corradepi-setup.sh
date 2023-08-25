@@ -112,6 +112,7 @@ function_start "get corrade and unzip it and rename the folder"
    cd /home/$botuser/
    sudo -u $botuser wget $CorradeDownloadPath/$CorradeZipfileName >> $pathtologfile
 #   sudo -u $botuser cp $CorradeDownloadPath/$CorradeZipfileName /home/$botuser/ #offline fix
+   check_install unzip
    sudo -u $botuser unp corrade*.zip >> $pathtologfile
    rm corrade*.zip
    sudo -u $botuser mv Corrade $BotFolderName
