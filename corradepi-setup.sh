@@ -200,7 +200,8 @@ function_start "create an init.d entry for the bot"
 #   wget -O $botuser$BotFolderName http://grimore.org/_export/code/secondlife/scripted_agents/corrade/install_guides/raspberry_pi?codeblock=22 >> $pathtologfile
 	#https://raw.githubusercontent.com/freddii/corradepi/master
    #wget -O $botuser$BotFolderName /home/pi/programs_setup/corradepi/MyFirstBot >> $pathtologfile
-   cp /home/pi/MyFirstBot $botuser$BotFolderName #offline fix
+   wget -O $botuser$BotFolderName https://raw.githubusercontent.com/freddii/corradepi/master/MyFirstBot >> $pathtologfile
+   #cp /home/pi/MyFirstBot $botuser$BotFolderName #offline fix
    sed -i "s:$SRC:$DST:g" $botuser$BotFolderName
    sed -i "s:$SRC2:$DST2:g" $botuser$BotFolderName
    sed -i "s/$SRC3/$DST3/g" $botuser$BotFolderName
