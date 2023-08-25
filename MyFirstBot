@@ -1,0 +1,74 @@
+#!/bin/sh
+# /etc/init.d/corrade
+
+### BEGIN INIT INFO
+# Provides:          MyFirstBot
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: corrade service
+# Description:       corrade service
+### END INIT INFO
+
+#corrade service
+CORRADE_USER="corrade"
+BOT_PATH="CorradeBots/MyFirstBot"
+DAEMON="Corrade.exe"
+LOCK="Corrade.exe.lock"
+# Determine the path to mono and mono-service.
+MONO=$(which mono)
+MONOSERVER=$(which mono-service)
+
+start() {
+   echo "Starting corrade in $BOT_PATH..."
+   HOMEDIR=`getent passwd $CORRADE_USER | cut -d: -f6`
+   if [ -f $HOMEDIR/$BOT_PATH/$DAEMON ]; then
+       if [ -f $HOMEDIR/$BOT_PATH/$LOCK ]; then
+           rm -rf $HOMEDIR/$BOT_PATH/$LOCK
+       fi
+       HOME="$HOMEDIR" start-stop-daemon --start -c $CORRADE_USER --exec $MONOSERVER -d $HOMEDIR/$BOT_PATH --background -- -l:$HOMEDIR/$BOT_PATH/$LOCK $HOMEDIR/$BOT_PATH/$DAEMON
+   fi
+}
+
+stop() {
+   echo "Stopping corrade in $BOT_PATH..."
+   HOMEDIR=`getent passwd $CORRADE_USER | cut -d: -f6`
+   if [ -f $HOMEDIR/$BOT_PATH/$DAEMON ]; then
+       start-stop-daemon -o -c $CORRADE_USER -K -u $CORRADE_USER --pidfile $HOMEDIR/$BOT_PATH/$LOCK -x $MONO -- -l:$HOMEDIR/$BOT_PATH/$LOCK $HOMEDIR/$BOT_PATH/$DAEMON
+       if [ -f $HOMEDIR/$BOT_PATH/$LOCK ]; then
+           rm -rf $HOMEDIR/$BOT_PATH/$LOCK
+       fi
+   fi
+}
+
+status() {
+   dbpid=`pgrep -u $CORRADE_USER mono`
+   if [ -z $dbpid ] ; then
+       echo "corrade for USER $CORRADE_USER: not running."
+   else
+       echo "corrade for USER $CORRADE_USER: running (pid $dbpid)"
+   fi
+}
+
+case "$1" in
+   start)
+       start
+       ;;
+   stop)
+       stop
+       ;;
+   restart|reload|force-reload)
+       stop
+       start
+       ;;
+   status)
+       status
+       ;;
+   *)
+       echo "Usage: $0 {start|stop|reload|force-reload|restart|status}"
+       exit 1
+
+esac
+
+exit 0
