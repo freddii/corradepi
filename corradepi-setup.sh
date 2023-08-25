@@ -120,9 +120,9 @@ function_end "get corrade and unzip it and rename the folder"
 #
 #
 function_start "create a database folder and others"
-   mkdir /home/$botuser/$BotFolderName/databases
    mkdir -pv /home/$botuser/$BotFolderName/logs/{region,local,im,groupchat}
    mkdir /home/$botuser/$BotFolderName/cache
+   mkdir /home/$botuser/$BotFolderName/databases
 function_end "create a database folder and others"
 #
 #
