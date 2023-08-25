@@ -104,7 +104,7 @@ function_end "install mono-complete"
 #
 #
 function_start "install unp"
-   check_install unp -y >> $pathtologfile
+   check_install unp >> $pathtologfile
 function_end "install unp"
 #
 #
@@ -132,7 +132,7 @@ function_end "make the user the owner of all files"
 #
 #
 function_start "install xmlstarlet"
-   check_install xmlstarlet -y >> $pathtologfile
+   check_install xmlstarlet >> $pathtologfile
 function_end "install xmlstarlet"
 #
 #
@@ -214,7 +214,7 @@ function_end "create an init.d entry for the bot"
 #
 #
 function_start "install monit"
-   check_install monit -y >> $pathtologfile
+   check_install monit >> $pathtologfile
 function_end "install monit"
 #
 #
